@@ -161,16 +161,16 @@ function( godotcpp_generate )
 
     MSVC is true when the compiler is some version of Microsoft Visual C++ or
     another compiler simulating the Visual C++ cl command-line syntax. ]]
-    if( MSVC )
-        math( EXPR PROC_N "(${PROC_MAX}-1) | (${X}-2)>>31 & 1" )
-        message( "Using ${PROC_N} cores for multi-threaded compilation.")
-        # TODO You can override it at configure time with ...." )
-    else ()
-        message( "Using ${CMAKE_BUILD_PARALLEL_LEVEL} cores, You can override"
-        " it at configure time by using -j <n> or --parallel <n> on the build"
-        " command.")
-        message( "  eg. cmake --build . -j 7  ...")
-    endif ()
+    # if( MSVC )
+    #     math( EXPR PROC_N "(${PROC_MAX}-1) | (${X}-2)>>31 & 1" )
+    #     message( "Using ${PROC_N} cores for multi-threaded compilation.")
+    #     # TODO You can override it at configure time with ...." )
+    # else ()
+    #     message( "Using ${CMAKE_BUILD_PARALLEL_LEVEL} cores, You can override"
+    #     " it at configure time by using -j <n> or --parallel <n> on the build"
+    #     " command.")
+    #     message( "  eg. cmake --build . -j 7  ...")
+    # endif ()
 
     #[[ GODOT_SYMBOL_VISIBLITY
     To match the SCons options, the allowed values are "auto", "visible", and "hidden"

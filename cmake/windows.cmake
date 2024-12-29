@@ -37,16 +37,17 @@ that dependent targets rely on it, and point them to these comments as to why.
 .. https://discourse.cmake.org/t/mt-staticrelease-doesnt-match-value-md-dynamicrelease/5428/4
 
 ]=======================================================================]
-if( PROJECT_NAME ) # we are not the top level if this is true
-    if( DEFINED CMAKE_MSVC_RUNTIME_LIBRARY )
-        # Warning that we are clobbering the variable.
-        message( WARNING "setting CMAKE_MSVC_RUNTIME_LIBRARY to \"$<1:>\"")
-    else(  )
-        # Notification that we are setting the variable
-        message( STATUS "setting CMAKE_MSVC_RUNTIME_LIBRARY to \"$<1:>\"")
-    endif()
-endif()
-set( CMAKE_MSVC_RUNTIME_LIBRARY "$<1:>" CACHE INTERNAL "Select the MSVC runtime library for use by compilers targeting the MSVC ABI." )
+# if( PROJECT_NAME ) # we are not the top level if this is true
+#     if( DEFINED CMAKE_MSVC_RUNTIME_LIBRARY )
+#         # Warning that we are clobbering the variable.
+#         message( WARNING "setting CMAKE_MSVC_RUNTIME_LIBRARY to \"$<1:>\"")
+#     else(  )
+#         # Notification that we are setting the variable
+#         message( STATUS "setting CMAKE_MSVC_RUNTIME_LIBRARY to \"$<1:>\"")
+#     endif()
+# endif()
+# set_property(TARGET ${PROJECT_NAME} PROPERTY
+#     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 #[============================[ Windows Options ]============================]
 function( windows_options )
@@ -77,12 +78,12 @@ function( windows_generate TARGET_NAME )
     )
 
     target_compile_options( ${TARGET_NAME}
-        PUBLIC
+        PRIVATE
             $<${IS_MSVC}:$<IF:${DEBUG_CRT},/MDd,$<IF:${STATIC_CPP},/MT,/MD>>>
     )
 
     target_link_options( ${TARGET_NAME}
-            PUBLIC
+            PRIVATE
 
             $<${NOT_MSVC}:
                 -Wl,--no-undefined
